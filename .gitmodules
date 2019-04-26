@@ -1,0 +1,3 @@
+[submodule "external/eosjs"]
+	path = external/eosjs
+	url = https://github.com/EOSIO/eosjs.git
