@@ -21,6 +21,8 @@ const enum AttestationFlags {
 
 async function addKey(k: AddKey) {
     try {
+        // todo: check RP ID hash
+        // todo: check signature
         if (unloadedModule)
             return;
         console.log(k);
@@ -42,15 +44,24 @@ async function addKey(k: AddKey) {
         const credentialId = new Uint8Array(data.buffer, pos, credentialIdLength);
         pos += credentialIdLength;
         const pubKey = await (cbor as any).decodeFirst(new Uint8Array(data.buffer, pos));
+        if (Serialize.arrayToHex(credentialId) !== k.id)
+            throw new Error('Credential ID does not match');
+        if (pubKey.get(1) !== 2)
+            throw new Error('Public key is not EC2');
+        if (pubKey.get(3) !== -7)
+            throw new Error('Public key is not ES256');
+        if (pubKey.get(-1) !== 1)
+            throw new Error('Public key has unsupported curve');
+        const x = pubKey.get(-2); // todo: check length
+        const y = pubKey.get(-3); // todo: check length
         console.log({
             flags: ('00' + flags.toString(16)).slice(-2),
             signCount,
             aaguid,
             credentialIdLength,
             credentialId: Serialize.arrayToHex(credentialId),
-            pubKey,
-            pos,
-            remaining: data.buffer.byteLength - pos,
+            x: Serialize.arrayToHex(x),
+            y: Serialize.arrayToHex(y),
         });
     } catch (e) {
         console.log('??????', e);
