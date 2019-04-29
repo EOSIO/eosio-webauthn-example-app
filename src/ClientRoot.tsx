@@ -1,3 +1,4 @@
+import { Key } from './Key';
 import * as IoClient from 'socket.io-client';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -11,6 +12,7 @@ class AppState {
     public alive = true;
     public io: SocketIOClient.Socket;
     public clientRoot: ClientRoot;
+    public keys = [] as Key[];
     public message = '';
 }
 
@@ -28,6 +30,10 @@ function connectSocket(appState: AppState) {
     });
     appState.io.on('err', (error: string) => {
         appendMessage(appState, error);
+    });
+    appState.io.on('keys', (keys: any) => {
+        appState.keys = keys;
+        console.log(keys);
     });
 }
 
