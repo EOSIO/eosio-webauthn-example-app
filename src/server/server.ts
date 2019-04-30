@@ -27,6 +27,22 @@ const enum AttestationFlags {
     extensionDataPresent = 0x80,
 }
 
+const enum UserPresence {
+    none = 0,
+    present = 1,
+    verified = 2,
+}
+
+function flagsToPresence(flags: number) {
+    if (flags & AttestationFlags.userVerified)
+        return UserPresence.verified;
+    else if (flags & AttestationFlags.userPresent)
+        return UserPresence.present;
+    else
+        return UserPresence.none;
+}
+
+
 let keys = [] as Key[];
 function loadKeys() {
     try {
@@ -94,7 +110,7 @@ async function decodeKey(k: AddKeyArgs): Promise<Key> {
     const ser = new Serialize.SerialBuffer();
     ser.push((y[31] & 1) ? 3 : 2);
     ser.pushArray(x);
-    ser.push(0); // user_verification_type
+    ser.push(flagsToPresence(flags));
     ser.pushString(k.rpid);
     const compact = ser.asUint8Array();
     const key = Numeric.publicKeyToString({
@@ -108,6 +124,7 @@ async function decodeKey(k: AddKeyArgs): Promise<Key> {
         credentialIdLength,
         credentialId: Serialize.arrayToHex(credentialId),
         rpid: k.rpid,
+        presence: flagsToPresence(flags),
         x: Serialize.arrayToHex(x),
         y: Serialize.arrayToHex(y),
         compact: Serialize.arrayToHex(compact),
