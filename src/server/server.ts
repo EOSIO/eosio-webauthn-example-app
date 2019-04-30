@@ -42,7 +42,6 @@ function flagsToPresence(flags: number) {
         return UserPresence.none;
 }
 
-
 let keys = [] as Key[];
 function loadKeys() {
     try {

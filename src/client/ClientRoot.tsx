@@ -1,5 +1,6 @@
 import { Key } from '../common/Key';
-import { Serialize } from 'eosjs';
+import { Api, JsonRpc, Serialize } from 'eosjs';
+import { WaSignatureProvider } from './wasig';
 import * as IoClient from 'socket.io-client';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -13,7 +14,14 @@ class AppState {
     public io: SocketIOClient.Socket;
     public clientRoot: ClientRoot;
     public keys = [] as Key[];
+    public sigprov = new WaSignatureProvider();
+    public rpc = new JsonRpc('http://localhost:8888');
+    public api: Api;
     public message = '';
+
+    constructor() {
+        this.api = new Api({ rpc: this.rpc, signatureProvider: this.sigprov });
+    }
 }
 
 function appendMessage(appState: AppState, message: string) {
@@ -33,7 +41,11 @@ function connectSocket(appState: AppState) {
     });
     appState.io.on('keys', (keys: any) => {
         appState.keys = keys;
+        appState.sigprov.keys.clear();
+        for (const key of appState.keys)
+            appState.sigprov.keys.set(key.key, key.credentialId);
         console.log(keys);
+        appState.clientRoot.forceUpdate();
     });
 }
 
@@ -72,10 +84,39 @@ async function createKey(appState: AppState) {
     }
 }
 
+async function transfer(appState: AppState, from: string, to: string) {
+    try {
+        await appState.api.transact(
+            {
+                actions: [{
+                    account: 'eosio.token',
+                    name: 'transfer',
+                    data: {
+                        from,
+                        to,
+                        quantity: '0.0001 SYS',
+                        memo: '',
+                    },
+                    authorization: [{
+                        actor: from,
+                        permission: 'active',
+                    }],
+                }],
+            }, {
+                blocksBehind: 3,
+                expireSeconds: 10,
+            });
+        appendMessage(appState, 'transaction pushed');
+    } catch (e) {
+        appendMessage(appState, e);
+    }
+}
+
 function Controls({ appState }: { appState: AppState }) {
     return (
         <div className='control'>
             <button onClick={() => { createKey(appState); }}>Create Key</button>
+            <button onClick={() => { transfer(appState, 'usera', 'userb'); }}>usera -> userb</button>
         </div>
     );
 }
@@ -87,7 +128,8 @@ class ClientRoot extends React.Component<{ appState: AppState }> {
         return (
             <div className='client-root'>
                 <Controls appState={appState} />
-                <pre className='message'>{appState.message}</pre>
+                <pre className='keys'>{'Keys:\n' + appState.keys.map(k => k.key).join('\n')}</pre>
+                <pre className='message'>{'Messages:\n' + appState.message}</pre>
             </div>
         );
     }

@@ -1,18 +1,24 @@
 .client-root {
-   display: grid;
-   grid-template-columns: 120px 400px 400px auto;
-   grid-template-areas: "control message message .";
+    display: grid;
+    grid-template-columns: 120px 400px 400px auto;
+    grid-template-areas:
+        "control keys keys ."
+        "control message message .";
 }
 
 .control {
-   grid-area: control;
-   margin: 5px;
-   display: grid;
-   grid-template-columns: auto;
-   align-content: start;
+    grid-area: control;
+    margin: 5px;
+    display: grid;
+    grid-template-columns: auto;
+    align-content: start;
 }
 
+.keys {
+    grid-area: keys;
+    border: 1px solid;
+}
 .message {
-   grid-area: message;
-   border: 1px solid;
+    grid-area: message;
+    border: 1px solid;
 }
