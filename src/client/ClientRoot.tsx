@@ -40,11 +40,10 @@ function connectSocket(appState: AppState) {
 async function createKey(appState: AppState) {
     try {
         appendMessage(appState, 'Create key...');
+        let rp = { id: 'localhost', name: 'bar' };
         let cred = await (navigator as any).credentials.create({
             publicKey: {
-                rp: {
-                    name: 'localhost',
-                },
+                rp,
                 user: {
                     id: new Uint8Array(16),
                     name: 'john.p.smith@example.com',
@@ -63,6 +62,7 @@ async function createKey(appState: AppState) {
         });
         console.log(cred);
         appState.io.emit('addKey', {
+            rpid: rp.id,
             id: Serialize.arrayToHex(new Uint8Array(cred.rawId)),
             attestationObject: Serialize.arrayToHex(new Uint8Array(cred.response.attestationObject)),
             clientDataJSON: Serialize.arrayToHex(new Uint8Array(cred.response.clientDataJSON)),

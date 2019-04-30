@@ -60,7 +60,7 @@ function recompileServer() {
             }
             io.emit('reconnect');
             Object.keys(require.cache).forEach(id => {
-                if (/(src\/server\/)|(src\/common)/.test(id)) {
+                if (/dist\/server|dist\/common/.test(id)) {
                     console.log('--', id);
                     delete require.cache[id];
                 }

@@ -14,6 +14,7 @@ export const router = express.Router();
 const textDecoder = new util.TextDecoder();
 
 interface AddKeyArgs {
+    rpid: string;
     id: string;
     attestationObject: string;
     clientDataJSON: string;
@@ -90,23 +91,28 @@ async function decodeKey(k: AddKeyArgs): Promise<Key> {
     const y = pubKey.get(-3); // todo: check length
     if (x.length !== 32 || y.length !== 32)
         throw new Error('Public key has invalid X or Y size');
-    const compact = new Uint8Array([(y[31] & 1) ? 3 : 2].concat(Array.from(x)));
+    const ser = new Serialize.SerialBuffer();
+    ser.push((y[31] & 1) ? 3 : 2);
+    ser.pushArray(x);
+    ser.push(0); // user_verification_type
+    ser.pushString(k.rpid);
+    const compact = ser.asUint8Array();
     const key = Numeric.publicKeyToString({
         type: Numeric.KeyType.wa,
         data: compact,
     });
-    // console.log({
-    //     flags: ('00' + flags.toString(16)).slice(-2),
-    //     signCount,
-    //     aaguid,
-    //     credentialIdLength,
-    //     credentialId: Serialize.arrayToHex(credentialId),
-    //     x: Serialize.arrayToHex(x),
-    //     y: Serialize.arrayToHex(y),
-    //     compact: Serialize.arrayToHex(compact),
-    //     key,
-    //     asci2: Numeric.publicKeyToString(Numeric.stringToPublicKey(key)),
-    // });
+    console.log({
+        flags: ('00' + flags.toString(16)).slice(-2),
+        signCount,
+        aaguid,
+        credentialIdLength,
+        credentialId: Serialize.arrayToHex(credentialId),
+        rpid: k.rpid,
+        x: Serialize.arrayToHex(x),
+        y: Serialize.arrayToHex(y),
+        compact: Serialize.arrayToHex(compact),
+        key,
+    });
     return {
         credentialId: Serialize.arrayToHex(credentialId),
         key,
