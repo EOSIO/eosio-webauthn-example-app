@@ -10,8 +10,8 @@ const compiler = webpack(config);
 const ts = require("typescript");
 const process = require('child_process');
 
-process.execSync('mkdir -p dist/external/eosjs/src', { stdio: 'inherit' });
-process.execSync('cp external/eosjs/src/*.json dist/external/eosjs/src', { stdio: 'inherit' });
+// process.execSync('mkdir -p dist/external/eosjs/src', { stdio: 'inherit' });
+// process.execSync('cp external/eosjs/src/*.json dist/external/eosjs/src', { stdio: 'inherit' });
 
 app.use(webpackDevMiddleware(compiler, {
     publicPath: config.output.publicPath
@@ -23,7 +23,7 @@ let serverMain;
 function getServerMain() {
     if (serverMain)
         return serverMain;
-    serverMain = require('../../dist/src/server/server.js');
+    serverMain = require('../../dist/server/server.js');
     serverMain.start(io);
 }
 

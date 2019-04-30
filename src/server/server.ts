@@ -1,10 +1,10 @@
-import { Key } from '../common/Key';
 import * as cbor from 'cbor';
+import { Numeric, Serialize } from 'eosjs';
 import * as express from 'express';
 import * as fs from 'fs';
-import * as Serialize from '../../external/eosjs/src/eosjs-serialize';
 import * as SocketIO from 'socket.io';
 import * as util from 'util';
+import { Key } from '../common/Key';
 
 const keysPath = 'keys.json';
 
@@ -88,6 +88,13 @@ async function decodeKey(k: AddKeyArgs): Promise<Key> {
         throw new Error('Public key has unsupported curve');
     const x = pubKey.get(-2); // todo: check length
     const y = pubKey.get(-3); // todo: check length
+    if (x.length !== 32 || y.length !== 32)
+        throw new Error('Public key has invalid X or Y size');
+    const compact = new Uint8Array([(y[31] & 1) ? 3 : 2].concat(Array.from(x)));
+    const key = Numeric.publicKeyToString({
+        type: Numeric.KeyType.wa,
+        data: compact,
+    });
     // console.log({
     //     flags: ('00' + flags.toString(16)).slice(-2),
     //     signCount,
@@ -96,11 +103,15 @@ async function decodeKey(k: AddKeyArgs): Promise<Key> {
     //     credentialId: Serialize.arrayToHex(credentialId),
     //     x: Serialize.arrayToHex(x),
     //     y: Serialize.arrayToHex(y),
+    //     compact: Serialize.arrayToHex(compact),
+    //     key,
+    //     asci2: Numeric.publicKeyToString(Numeric.stringToPublicKey(key)),
     // });
     return {
         credentialId: Serialize.arrayToHex(credentialId),
-        x: Serialize.arrayToHex(x),
-        y: Serialize.arrayToHex(y),
+        key,
+        x: Serialize.arrayToHex(x), // todo: remove
+        y: Serialize.arrayToHex(y), // todo: remove
     };
 }
 
