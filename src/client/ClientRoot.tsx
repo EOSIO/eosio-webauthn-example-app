@@ -1,8 +1,8 @@
-import { Key } from './Key';
+import { Key } from '../common/Key';
 import * as IoClient from 'socket.io-client';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import * as Serialize from '../external/eosjs/src/eosjs-serialize';
+import * as Serialize from '../../external/eosjs/src/eosjs-serialize';
 
 require('./style.css');
 

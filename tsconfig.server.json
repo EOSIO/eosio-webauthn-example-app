@@ -10,7 +10,7 @@
         "moduleResolution": "node"
     },
     "files": [
-        "src/server-main.ts",
+        "src/server/server.ts",
         "external/eosjs/src/eosjs-ecc.d.ts",
         "external/eosjs/src/eosjs-api.ts",
         "external/eosjs/src/eosjs-jsonrpc.ts",

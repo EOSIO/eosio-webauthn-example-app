@@ -4,7 +4,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 
 const app = express();
 const server = require('http').Server(app);
-const config = require('../webpack.config.js');
+const config = require('../../webpack.config.js');
 const compiler = webpack(config);
 
 const ts = require("typescript");
@@ -23,7 +23,7 @@ let serverMain;
 function getServerMain() {
     if (serverMain)
         return serverMain;
-    serverMain = require('../dist/src/server-main.js');
+    serverMain = require('../../dist/src/server/server.js');
     serverMain.start(io);
 }
 
@@ -60,7 +60,7 @@ function recompileServer() {
             }
             io.emit('reconnect');
             Object.keys(require.cache).forEach(id => {
-                if (/server-main/.test(id)) {
+                if (/(src\/server\/)|(src\/common)/.test(id)) {
                     console.log('--', id);
                     delete require.cache[id];
                 }

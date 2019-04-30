@@ -1,8 +1,8 @@
-import { Key } from './Key';
+import { Key } from '../common/Key';
 import * as cbor from 'cbor';
 import * as express from 'express';
 import * as fs from 'fs';
-import * as Serialize from '../external/eosjs/src/eosjs-serialize';
+import * as Serialize from '../../external/eosjs/src/eosjs-serialize';
 import * as SocketIO from 'socket.io';
 import * as util from 'util';
 
@@ -123,4 +123,4 @@ export function unloading() {
     unloadedModule = true;
 }
 
-console.log('\nLoaded server-main\n==================');
+console.log('\nLoaded server\n==================');

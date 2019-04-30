@@ -4,7 +4,7 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: {
-        client: ['./src/client.ts', 'webpack-hot-middleware/client'],
+        client: ['./src/client/client.ts', 'webpack-hot-middleware/client'],
     },
     module: {
         rules: [
@@ -33,7 +33,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             hash: true,
-            template: './src/index.html',
+            template: './src/client/index.html',
             filename: 'index.html'
         }),
         new webpack.HotModuleReplacementPlugin(),

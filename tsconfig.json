@@ -9,7 +9,7 @@
         "jsx": "react"
     },
     "include": [
-        "src/*.ts",
+        "src/**/*.ts",
         "external/eosjs/src/eosjs-ecc.d.ts",
         "external/eosjs/src/eosjs-api.ts",
         "external/eosjs/src/eosjs-jsonrpc.ts",
@@ -17,6 +17,6 @@
         "external/eosjs/src/eosjs-numeric.ts",
         "external/eosjs/src/eosjs-rpcerror.ts",
         "external/eosjs/src/eosjs-serialize.ts",
-        "external/eosjs/src/ripemd.js"
+        "external/eosjs/src/ripemd.js",
     ]
 }
