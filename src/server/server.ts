@@ -102,8 +102,8 @@ async function decodeKey(k: AddKeyArgs): Promise<Key> {
         throw new Error('Public key is not ES256');
     if (pubKey.get(-1) !== 1)
         throw new Error('Public key has unsupported curve');
-    const x = pubKey.get(-2); // todo: check length
-    const y = pubKey.get(-3); // todo: check length
+    const x = pubKey.get(-2);
+    const y = pubKey.get(-3);
     if (x.length !== 32 || y.length !== 32)
         throw new Error('Public key has invalid X or Y size');
     const ser = new Serialize.SerialBuffer();
@@ -132,9 +132,11 @@ async function decodeKey(k: AddKeyArgs): Promise<Key> {
     return {
         credentialId: Serialize.arrayToHex(credentialId),
         key,
-        x: Serialize.arrayToHex(x), // todo: remove
-        y: Serialize.arrayToHex(y), // todo: remove
-    };
+        // todo: remove extra fields
+        x: Serialize.arrayToHex(x),
+        y: Serialize.arrayToHex(y),
+        compact: Serialize.arrayToHex(compact),
+    } as any; // todo: remove any
 }
 
 let socketIO: SocketIO.Server;

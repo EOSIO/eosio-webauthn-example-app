@@ -37,7 +37,9 @@
       "webpack-hot-middleware": "^2.24.4"
    },
    "dependencies": {
+      "@types/elliptic": "^6.4.6",
       "cbor": "^4.1.5",
+      "elliptic": "^6.4.1",
       "eosjs": "file:external/eosjs",
       "eosjs-ecc": "^4.0.4",
       "node-fetch": "^2.3.0",

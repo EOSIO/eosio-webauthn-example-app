@@ -22,6 +22,18 @@ class AppState {
     constructor() {
         this.api = new Api({ rpc: this.rpc, signatureProvider: this.sigprov });
     }
+
+    public restore(prev: AppState) {
+        this.message = prev.message;
+        this.setKeys(prev.keys);
+    }
+
+    public setKeys(keys: Key[]) {
+        this.keys = keys;
+        this.sigprov.keys.clear();
+        for (const key of this.keys)
+            this.sigprov.keys.set(key.key, key.credentialId);
+    }
 }
 
 function appendMessage(appState: AppState, message: string) {
@@ -40,11 +52,7 @@ function connectSocket(appState: AppState) {
         appendMessage(appState, error);
     });
     appState.io.on('keys', (keys: any) => {
-        appState.keys = keys;
-        appState.sigprov.keys.clear();
-        for (const key of appState.keys)
-            appState.sigprov.keys.set(key.key, key.credentialId);
-        console.log(keys);
+        appState.setKeys(keys);
         appState.clientRoot.forceUpdate();
     });
 }
@@ -138,10 +146,7 @@ class ClientRoot extends React.Component<{ appState: AppState }> {
 export default function init(prev: AppState) {
     let appState = new AppState();
     if (prev) {
-        appState = {
-            ...appState,
-            ...prev,
-        };
+        appState.restore(prev);
         prev.alive = false;
         if (prev.io)
             prev.io.close();
