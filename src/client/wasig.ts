@@ -38,6 +38,7 @@ export class WaSignatureProvider implements ApiInterfaces.SignatureProvider {
             console.log('sig', Serialize.arrayToHex(new Uint8Array(assertion.response.signature)));
             console.log('auth', assertion.response.authenticatorData);
             console.log('json', assertion.response.clientDataJSON);
+            console.log('json', (new TextDecoder()).decode(new Uint8Array(assertion.response.clientDataJSON)));
             console.log('pub', key);
             console.log('pub', Numeric.publicKeyToString(Numeric.stringToPublicKey(key)));
             const e = new ec('p256') as any; // .d.ts files for elliptic are wrong
@@ -52,12 +53,14 @@ export class WaSignatureProvider implements ApiInterfaces.SignatureProvider {
             console.log('pub', k2.getPublic('hex'));
             // const x = new ec.Signature(new Uint8Array(assertion.response.signature) as any);
 
-            debugger
             const whatItReallySigned = new Serialize.SerialBuffer();
             whatItReallySigned.pushArray(new Uint8Array(assertion.response.authenticatorData));
             whatItReallySigned.pushArray(new Uint8Array(await crypto.subtle.digest('SHA-256', assertion.response.clientDataJSON)));
             const s = new Uint8Array(await crypto.subtle.digest('SHA-256', whatItReallySigned.asUint8Array()));
             console.log('s', s);
+
+            debugger
+            console.log('?', e.verify(s, new Uint8Array(assertion.response.signature), k2));
             const recid = e.getKeyRecoveryParam(s, new Uint8Array(assertion.response.signature), k2);
             console.log('recid', recid);
         }
