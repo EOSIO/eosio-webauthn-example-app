@@ -112,7 +112,7 @@ async function transfer(appState: AppState, from: string, to: string) {
                 }],
             }, {
                 blocksBehind: 3,
-                expireSeconds: 10,
+                expireSeconds: 60 * 60,
             });
         appendMessage(appState, 'transaction pushed');
     } catch (e) {
