@@ -132,11 +132,7 @@ async function decodeKey(k: AddKeyArgs): Promise<Key> {
     return {
         credentialId: Serialize.arrayToHex(credentialId),
         key,
-        // todo: remove extra fields
-        x: Serialize.arrayToHex(x),
-        y: Serialize.arrayToHex(y),
-        compact: Serialize.arrayToHex(compact),
-    } as any; // todo: remove any
+    };
 }
 
 let socketIO: SocketIO.Server;
