@@ -125,6 +125,7 @@ function Controls({ appState }: { appState: AppState }) {
         <div className='control'>
             <button onClick={() => { createKey(appState); }}>Create Key</button>
             <button onClick={() => { transfer(appState, 'usera', 'userb'); }}>usera -> userb</button>
+            <button onClick={() => { transfer(appState, 'userb', 'usera'); }}>userb -> usera</button>
         </div>
     );
 }
