@@ -3,8 +3,11 @@
 [![EOSIO Labs](https://img.shields.io/badge/EOSIO-Labs-5cb3ff.svg)](#about-eosio-labs)
 
 # Overview
+ 
+This example application demonstrates WebAuthn based: 
 
-Example Application showing WebAuthn
+- blockchain account creation for private chains
+- blockchain transaction signatures on private chains
 
 ## About EOSIO Labs
 
