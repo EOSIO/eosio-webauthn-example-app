@@ -12,13 +12,87 @@ EOSIO Labs repositories are experimental.  Developers in the community are encou
 
 # Build and run this app
 
+Running this app will create an HTTP server listening on 0.0.0.0:8000 meaning it would typically be accessible via http://localhost:8000 (and from non-localhost as well). However, webauthn requires usage from an HTTPS origin. You will need to place an HTTPS proxy in front of the server and modify server source code with the resulting domain name and port.
+
+## HTTPS proxy via self-signed localhost cert
+
+One way of placing an HTTPS proxy in front of the server is via haproxy & a self signed certificate that you instruct your browser to trust.
+
+First, create a certificate and private key
+```
+openssl req \
+-x509 \
+-nodes \
+-new \
+-newkey rsa:4096 \
+-keyout localhostca.key \
+-out localhostca.crt \
+-sha256 \
+-days 3650 \
+-config <(cat <<EOF
+
+[ req ]
+prompt = no
+distinguished_name = subject
+x509_extensions    = x509_ext
+
+[ subject ]
+commonName = localhost
+
+[ x509_ext ]
+subjectAltName = @alternate_names
+basicConstraints=CA:TRUE,pathlen:0
+
+[ alternate_names ]
+DNS.1 = localhost
+
+EOF
+)
+```
+Combine cert and key to PEM file
+```
+cat localhostca.crt localhostca.key > localhostca.pem
+```
+
+Then make an haproxy.cfg which will listen on HTTPS 7000 and forward to 8000
+
+```
+defaults
+   timeout connect 10000ms
+   timeout client  50000ms
+   timeout server  50000ms
+
+frontend https-in
+   bind *:7000 ssl crt localhostca.pem
+   use_backend http_backend
+
+backend http_backend
+   server server1 127.0.0.1:8000
+```
+
+Run haproxy
+
+```
+$ haproxy -f haproxy.cfg
+```
+
+You will need to add the `localhostca.crt` certificate as a trusted certificate in your browser. The steps to do this vary based on OS and browser.
+
+It would be good practice to remove this certificate from being trusted at the conclusion of your development.
+
+## Modification of server origin in source
+
+The server domain name and port must be specified in the source of this application. Modify the `socketUrl` in `src/client/ClientRoot.tsx` to be the valid HTTPS url to the HTTPS proxy. If you performed the self-signed & haproxy instructions above you would change this to `https://localhost:7000`
+
+# Building and running the server
+
 ```
 yarn
 rm -rf node_modules/eosjs && bash -c "cd external/eosjs && yarn" && yarn add file:external/eosjs
 rm -rf dist && yarn server
 ```
 
-Connect to http://localhost:8000
+The server is now running. Access the server via the HTTPS proxy you created.
 
 # Limitations
 
