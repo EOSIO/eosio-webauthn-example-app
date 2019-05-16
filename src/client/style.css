@@ -1,9 +1,9 @@
 .client-root {
     display: grid;
-    grid-template-columns: 120px 400px 400px auto;
+    grid-template-columns: 180px 400px 400px auto;
     grid-template-areas:
         "control keys keys ."
-        "control message message .";
+        "balance message message .";
 }
 
 .control {
@@ -14,10 +14,19 @@
     align-content: start;
 }
 
+.balance {
+    grid-area: balance;
+    margin: 5px;
+    display: grid;
+    grid-template-columns: auto;
+    align-content: start;
+}
+
 .keys {
     grid-area: keys;
     border: 1px solid;
 }
+
 .message {
     grid-area: message;
     border: 1px solid;

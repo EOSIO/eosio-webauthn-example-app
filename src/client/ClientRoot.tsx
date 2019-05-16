@@ -18,9 +18,14 @@ class AppState {
     public rpc = new JsonRpc('http://localhost:8888');
     public api: Api;
     public message = '';
+    public balances = new Map<string, string>();
 
     constructor() {
         this.api = new Api({ rpc: this.rpc, signatureProvider: this.sigprov });
+        this.updateBalance('usera');
+        this.updateBalance('userb');
+        this.updateBalance('userc');
+        this.updateBalance('userd');
     }
 
     public restore(prev: AppState) {
@@ -33,6 +38,19 @@ class AppState {
         this.sigprov.keys.clear();
         for (const key of this.keys)
             this.sigprov.keys.set(key.key, key.credentialId);
+    }
+
+    private async updateBalance(name: string) {
+        while (this.alive) {
+            try {
+                await delay(200);
+                this.balances.set(name, (await this.rpc.get_currency_balance('eosio.token', name))[0]);
+                if (this.clientRoot)
+                    this.clientRoot.forceUpdate();
+            } catch (e) {
+                console.log(e);
+            }
+        }
     }
 }
 
@@ -54,6 +72,12 @@ function connectSocket(appState: AppState) {
     appState.io.on('keys', (keys: any) => {
         appState.setKeys(keys);
         appState.clientRoot.forceUpdate();
+    });
+}
+
+async function delay(ms: number): Promise<void> {
+    return new Promise((resolve, reject) => {
+        setTimeout(resolve, ms);
     });
 }
 
@@ -102,7 +126,7 @@ async function transfer(appState: AppState, from: string, to: string) {
                     data: {
                         from,
                         to,
-                        quantity: '0.0001 SYS',
+                        quantity: '1.0000 SYS',
                         memo: '',
                     },
                     authorization: [{
@@ -126,6 +150,20 @@ function Controls({ appState }: { appState: AppState }) {
             <button onClick={() => { createKey(appState); }}>Create Key</button>
             <button onClick={() => { transfer(appState, 'usera', 'userb'); }}>usera -> userb</button>
             <button onClick={() => { transfer(appState, 'userb', 'usera'); }}>userb -> usera</button>
+            <button onClick={() => { transfer(appState, 'userc', 'userd'); }}>userc -> userd</button>
+            <button onClick={() => { transfer(appState, 'userd', 'userc'); }}>userd -> userc</button>
+        </div>
+    );
+}
+
+function Balances({ appState }: { appState: AppState }) {
+    return (
+        <div className='balance'>
+            <table>
+                <tbody>
+                    {Array.from(appState.balances, ([user, bal]) => <tr key={user}><td>{user}</td><td>{bal}</td></tr>)}
+                </tbody>
+            </table>
         </div>
     );
 }
@@ -137,6 +175,7 @@ class ClientRoot extends React.Component<{ appState: AppState }> {
         return (
             <div className='client-root'>
                 <Controls appState={appState} />
+                <Balances appState={appState} />
                 <pre className='keys'>{'Keys:\n' + appState.keys.map(k => k.key).join('\n')}</pre>
                 <pre className='message'>{'Messages:\n' + appState.message}</pre>
             </div>

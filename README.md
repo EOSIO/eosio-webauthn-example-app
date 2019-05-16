@@ -65,13 +65,18 @@ cleos set contract eosio .../path/to/eosio.contracts/build/contracts/eosio.bios 
 cleos set contract eosio.token .../path/to/eosio.contracts/build/contracts/eosio.token -p eosio.token
 cleos push action eosio activate '["4fca8bd82bbd181e714e283f83e1b45d95ca5af40fb89ad3977b653c448f78c2"]' -p eosio
 cleos push action eosio.token create '["eosio","10000000.0000 SYS"]' -p eosio.token
+cleos push action eosio.token issue '["eosio","10000000.0000 SYS",""]' -p eosio
 ```
 
 ## Use app to generate 2 keys. Use them below:
 
 ```
-cleos create account eosio usera PUB_WA_.....
-cleos create account eosio userb PUB_WA_.....
-cleos push action eosio.token issue '["usera","1000.0000 SYS",""]' -p eosio
-cleos push action eosio.token issue '["userb","1000.0000 SYS",""]' -p eosio
+cleos create account eosio usera PUB_WA_...
+cleos create account eosio userb PUB_WA_...
+cleos create account eosio userc PUB_WA_...
+cleos create account eosio userd PUB_WA_...
+cleos transfer eosio usera "1000.0000 SYS" ""
+cleos transfer eosio userb "1000.0000 SYS" ""
+cleos transfer eosio userc "1000.0000 SYS" ""
+cleos transfer eosio userd "1000.0000 SYS" ""
 ```
