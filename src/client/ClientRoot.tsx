@@ -161,7 +161,7 @@ function Balances({ appState }: { appState: AppState }) {
         <div className='balance'>
             <table>
                 <tbody>
-                    {Array.from(appState.balances, ([user, bal]) => <tr key={user}><td>{user}</td><td>{bal}</td></tr>)}
+                    {Array.from(appState.balances).sort().map(([user, bal]) => <tr key={user}><td>{user}</td><td>{bal}</td></tr>)}
                 </tbody>
             </table>
         </div>
