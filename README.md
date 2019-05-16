@@ -1,10 +1,13 @@
-# EOSIO Browser Signature Example WebAuthn App
+# EOSIO WebAuthn Browser Based Signature Example App
 
 [![EOSIO Labs](https://img.shields.io/badge/EOSIO-Labs-5cb3ff.svg)](#about-eosio-labs)
 
 # Overview
+ 
+This example application demonstrates WebAuthn based: 
 
-Example Application showing WebAuthn
+- blockchain account creation for private chains
+- blockchain transaction signatures for private chains
 
 ## About EOSIO Labs
 
