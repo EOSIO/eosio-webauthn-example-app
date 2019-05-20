@@ -178,6 +178,16 @@ class ClientRoot extends React.Component<{ appState: AppState }> {
                 <Balances appState={appState} />
                 <pre className='keys'>{'Keys:\n' + appState.keys.map(k => k.key).join('\n')}</pre>
                 <pre className='message'>{'Messages:\n' + appState.message}</pre>
+                <div className='disclaimer'>
+                    EOSIO Labs repositories are experimental. Developers in the community are encouraged to use EOSIO Labs
+                    repositories as the basis for code and concepts to incorporate into their applications. Community members
+                    are also welcome to contribute and further develop these repositories. Since these repositories are not
+                    supported by Block.one, we may not provide responses to issue reports, pull requests, updates to
+                    functionality, or other requests from the community, and we encourage the community to take responsibility
+                    for these.
+                    <br /><br />
+                    <a href="https://github.com/EOSIO/webauthn-browser-signature">GitHub Repo</a>
+                </div>
             </div>
         );
     }
