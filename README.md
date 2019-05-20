@@ -171,12 +171,16 @@ $ cleos create account eosio userc <a-generated-public-key>
 $ cleos create account eosio userd <a-generated-public-key>
 ```
 
+![](/screenshots/screenshot-i.png?raw=true")
+
 ```
 $ cleos transfer eosio usera "1000.0000 SYS" ""
 $ cleos transfer eosio userb "1000.0000 SYS" ""
 $ cleos transfer eosio userc "1000.0000 SYS" ""
 $ cleos transfer eosio userd "1000.0000 SYS" ""
 ```
+
+![](/screenshots/screenshot-ii.png?raw=true")
 
 ## Contributing
 
