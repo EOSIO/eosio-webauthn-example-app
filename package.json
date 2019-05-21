@@ -1,6 +1,6 @@
 {
-   "name": "demo",
-   "version": "1.0.0",
+   "name": "webauthn-browser-signature",
+   "version": "0.1.0",
    "description": "",
    "main": "index.js",
    "scripts": {
@@ -11,7 +11,10 @@
       "build": "webpack"
    },
    "keywords": [],
-   "author": "block.one",
+   "author": {
+      "name": "block.one",
+      "url": "https://block.one/"
+   },
    "license": "MIT",
    "devDependencies": {
       "@types/cbor": "^2.0.0",
