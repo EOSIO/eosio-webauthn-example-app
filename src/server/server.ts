@@ -106,7 +106,7 @@ async function decodeKey(k: AddKeyArgs): Promise<Key> {
     const y = pubKey.get(-3);
     if (x.length !== 32 || y.length !== 32)
         throw new Error('Public key has invalid X or Y size');
-    const ser = new Serialize.SerialBuffer();
+    const ser = new Serialize.SerialBuffer({textEncoder: new util.TextEncoder(), textDecoder: new util.TextDecoder()});
     ser.push((y[31] & 1) ? 3 : 2);
     ser.pushArray(x);
     ser.push(flagsToPresence(flags));

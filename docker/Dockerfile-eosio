@@ -1,0 +1,48 @@
+FROM ubuntu:18.04
+
+# Make sure the image is updated, install some prerequisites,
+# Download the latest version of Clang (official binary) for Ubuntu
+# Extract the archive and add Clang to the PATH
+RUN apt-get update && apt-get install -y \
+  xz-utils \
+  build-essential \
+  curl \
+  && rm -rf /var/lib/apt/lists/* \
+  && curl -SL http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz \
+  | tar -xJC . && \
+  mv clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04 clang_8.0.0
+
+RUN echo 'export PATH=/clang_8.0.0/bin:$PATH' >> ~/.bashrc
+RUN echo 'export LD_LIBRARY_PATH=/clang_8.0.0/lib:LD_LIBRARY_PATH' >> ~/.bashrc
+
+RUN apt-get update && apt-get install -y libudev-dev cmake \
+                                         git build-essential jq \
+                                         sudo autoconf libtool \
+                                         pkg-config libusb-1.0 wget
+
+RUN git clone https://github.com/EOSIO/eos.git /app/eos
+
+WORKDIR /app/eos
+
+RUN git checkout webauthn && git submodule update --init --recursive
+ENV PATH=/clang_8.0.0/bin:$PATH
+ENV LD_LIBRARY_PATH=/clang_8.0.0/lib:LD_LIBRARY_PATH
+RUN CC=clang CXX=clang++ ./scripts/eosio_build.sh -y
+
+WORKDIR /app
+
+RUN wget https://github.com/EOSIO/eosio.cdt/releases/download/v1.6.1/eosio.cdt_1.6.1-1_amd64.deb -O eosio.cdt.deb
+RUN apt-get install ./eosio.cdt.deb
+RUN git clone https://github.com/EOSIO/eosio.contracts.git /app/eosio.contracts
+
+WORKDIR /app/eosio.contracts
+
+RUN git checkout v1.7.0-rc1
+RUN mkdir build && cd build && cmake .. && make contracts_project
+
+WORKDIR /app/eos
+
+RUN echo 'export PATH=/app/eos/build/bin:$PATH' >> ~/.bashrc
+ENV PATH=/app/eos/build/bin:$PATH
+
+COPY ./scripts /app/scripts
