@@ -30,8 +30,6 @@ EOF
 
 cat localhostca.crt localhostca.key > localhostca.pem
 
-cp localhostca.pem docker/haproxy
-
 CLEAR="\033[0m"
 GREEN="\033[32m"
 YELLOW="\033[33m"
