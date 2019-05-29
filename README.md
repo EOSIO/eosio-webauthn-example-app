@@ -24,7 +24,7 @@ Running this app will create an HTTP server listening on 0.0.0.0:8000 meaning it
 - Install nodejs
 
 ### Setup
-The following command will generate the required SSL certificate, perform the required nodeos install, and execute all necessary actions against the chain.
+The following command will generate the required SSL certificate, perform the required yarn install/setup, and execute all necessary actions against the chain.
 
 `yarn setup`
 
