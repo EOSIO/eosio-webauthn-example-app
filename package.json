@@ -8,7 +8,11 @@
       "server": "node src/server/server-loader.js",
       "lint": "tslint -c tslint.json src/**/*.ts",
       "lint-fix": "tslint -c tslint.json src/**/*.ts --fix",
-      "build": "webpack"
+      "build": "webpack",
+      "start": "./scripts/start.sh",
+      "stop": "./scripts/stop.sh",
+      "setup": "./scripts/setup.sh",
+      "clean": "./scripts/clean.sh"
    },
    "keywords": [],
    "author": {

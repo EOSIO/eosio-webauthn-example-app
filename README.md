@@ -3,8 +3,8 @@
 [![EOSIO Labs](https://img.shields.io/badge/EOSIO-Labs-5cb3ff.svg)](#about-eosio-labs)
 
 # Overview
- 
-This example application demonstrates WebAuthn based: 
+
+This example application demonstrates WebAuthn based:
 
 - blockchain account creation for private chains
 - blockchain transaction signatures for private chains
@@ -14,8 +14,36 @@ This example application demonstrates WebAuthn based:
 EOSIO Labs repositories are experimental.  Developers in the community are encouraged to use EOSIO Labs repositories as the basis for code and concepts to incorporate into their applications. Community members are also welcome to contribute and further develop these repositories. Since these repositories are not supported by Block.one, we may not provide responses to issue reports, pull requests, updates to functionality, or other requests from the community, and we encourage the community to take responsibility for these.
 
 # Building and running this app
-
 Running this app will create an HTTP server listening on 0.0.0.0:8000 meaning it would typically be accessible via http://localhost:8000 (and from non-localhost as well). However, webauthn requires usage from an HTTPS origin. You will need to place an HTTPS proxy in front of the server and modify server source code with the resulting domain name and port.
+
+## Running Locally with nodeos docker image
+
+### Prerequisites
+- Install Docker
+- Install HAProxy
+- Install nodejs
+
+### Setup
+The following command will generate the required SSL certificate, perform the required nodeos install, and execute all necessary actions against the chain.
+
+`yarn setup`
+
+### Starting/Stopping
+To start the chain, haproxy, and the app:
+`yarn start`
+
+To stop all of the above, CTRL+C the app and then:
+`yarn stop`
+
+### Cleaning the chain
+To reset the chain:
+`yarn clean`
+
+## Running Locally with nodeos built from source
+
+### Prerequisites
+- Install HAProxy
+- Install nodejs
 
 ### HTTPS proxy via self-signed localhost certificate:
 
