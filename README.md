@@ -21,6 +21,8 @@ Running this app will create an HTTP server listening on 0.0.0.0:8000 meaning it
 ### Prerequisites
 - Install Docker
 - Install HAProxy
+   - On Mac: `brew install haproxy`
+   - On Ubuntu: `apt-get install haproxy=1.8.\*`
 - Install nodejs
 
 ### Setup
@@ -38,6 +40,12 @@ To stop all of the above, CTRL+C the app and then:
 ### Cleaning the chain
 To reset the chain:
 `yarn clean`
+
+### Running any arbitrary cleos command
+`yarn cleos <parameters to cleos>`
+
+### If the wallet locks,
+`yarn unlock-wallet`
 
 ## Running Locally with nodeos built from source
 

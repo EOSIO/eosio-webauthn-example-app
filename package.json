@@ -12,7 +12,9 @@
       "start": "./scripts/start.sh",
       "stop": "./scripts/stop.sh",
       "setup": "./scripts/setup.sh",
-      "clean": "./scripts/clean.sh"
+      "clean": "./scripts/clean.sh",
+      "unlock-wallet": "./scripts/unlock-wallet.sh",
+      "cleos": "./scripts/cleos.sh"
    },
    "keywords": [],
    "author": {

@@ -1,4 +1,6 @@
 #!/bin/bash
+docker pull eosio/nodeos-webauthn:latest
+
 # Frontend setup
 ./scripts/frontend-setup.sh
 
