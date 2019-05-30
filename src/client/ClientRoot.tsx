@@ -174,6 +174,9 @@ class ClientRoot extends React.Component<{ appState: AppState }> {
         appState.clientRoot = this;
         return (
             <div className='client-root'>
+                <div className='banner'>
+                    Example application demonstrating WebAuthn based account creation and transactions on private blockchains
+                </div>
                 <Controls appState={appState} />
                 <Balances appState={appState} />
                 <pre className='keys'>{'Keys:\n' + appState.keys.map(k => k.key).join('\n')}</pre>
