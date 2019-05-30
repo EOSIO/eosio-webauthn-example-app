@@ -20,6 +20,7 @@ Running this app will create an HTTP server listening on 0.0.0.0:8000 meaning it
 
 ### Prerequisites
 - Install Docker
+- Install Docker Compose (included with Docker for Desktop on Mac)
 - Install HAProxy
    - On Mac: `brew install haproxy`
    - On Ubuntu: `apt-get install haproxy=1.8.\*`

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Create wallet
-cleos wallet create --file /app/.wallet-password
+cleos wallet create --file /app/wallet/.wallet-password
 cleos wallet import --private-key 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
 
 # Enable webauthn feature of nodeos

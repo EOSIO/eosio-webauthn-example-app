@@ -1,4 +1,3 @@
 #!/bin/bash
-docker stop webauthn-nodeos
-docker rm webauthn-nodeos
-pgrep haproxy | xargs kill 
+docker-compose down
+pgrep haproxy | xargs kill

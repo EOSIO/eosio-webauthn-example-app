@@ -1,2 +1,2 @@
 #!/bin/bash
-docker exec -it webauthn-nodeos cleos wallet unlock < /app/.wallet-password
+docker-compose exec nodeos-webauthn-producer bash -c "cleos wallet unlock --password < /app/wallet/.wallet-password"
