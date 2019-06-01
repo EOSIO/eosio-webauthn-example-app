@@ -21,6 +21,17 @@ This is facilitated by `eosjs`, a [WebAuthn Signature Provider](https://github.c
 
 EOSIO Labs™ repositories are experimental.  Developers in the community are encouraged to use EOSIO Labs repositories as the basis for code and concepts to incorporate into their applications. Community members are also welcome to contribute and further develop these repositories. Since these repositories are not supported by Block.one, we may not provide responses to issue reports, pull requests, updates to functionality, or other requests from the community, and we encourage the community to take responsibility for these.
 
+## Contents
+
+* [Limitations](#limitations)
+* [Building and Running The App](#building-and-running-the-app)
+   * [Running Locally With nodeos Docker Image](#running-locally-with-nodeos-docker-image)
+   * [Running Locally With nodeos Built From Source](#running-locally-with-nodeos-built-from-source)
+* [Building and Running the Server](#building-and-running-the-server)
+* [Create Test Chain With WebAuthn Support](#create-test-chain-with-webauthn-support)
+* [Contributing](#contributing)
+* [License & Legal](#license)
+
 ## Limitations
 
 * Server only supports a single client (browser tab) connecting to it
@@ -34,10 +45,10 @@ EOSIO Labs™ repositories are experimental.  Developers in the community are en
 * If `keys.json` (maintained by the server) is lost, then the keypairs become inaccessible. It's important to note that webauthn doesn't provide a way to recover from this.
 * There is currently no way to display Ricardian contracts to users when using WebAuthn. For this reason, WebAuthn, when used in conjunction with EOSIO, should be used with caution and only on private chains and applications already trusted by the end user.
 
-## Building and Running This App
+## Building and Running The App
 Running this app will create an HTTP server listening on 0.0.0.0:8000 meaning it would typically be accessible via http://localhost:8000 (and from non-localhost as well). However, webauthn requires usage from an HTTPS origin. You will need to place an HTTPS proxy in front of the server and modify server source code with the resulting domain name and port.
 
-### Running Locally with nodeos Docker Image
+### Running Locally With nodeos Docker Image
 
 #### Prerequisites
 - Install Docker
@@ -69,7 +80,7 @@ To reset the chain:
 #### If the wallet locks,
 `yarn unlock-wallet`
 
-### Running locally with nodeos built from source
+### Running Locally With nodeos Built From Source
 
 #### Prerequisites
 - Install HAProxy
@@ -148,7 +159,7 @@ Note that it would be good practice to remove this certificate from being truste
 
 The server domain name and port must be specified in the source of this application. Modify the `socketUrl` in `src/client/ClientRoot.tsx` to be the valid HTTPS url to the HTTPS proxy. If you performed the self-signed & haproxy instructions above you would change this to `https://localhost:7000`
 
-## Building and running the server
+## Building and Running the Server
 
 ```
 $ git submodule update --init --recursive
@@ -159,7 +170,7 @@ $ rm -rf dist && yarn server
 
 The server is now running and you can now access it via the HTTPS proxy you just created.
 
-## Create test chain with WebAuthn support
+## Create Test Chain With WebAuthn Support
 
 This starts a minimal test chain with some upgrades activated. This guide assumes you're already familiar with creating and using test chains.
 
