@@ -2,7 +2,7 @@
 
 [![EOSIO Labs](https://img.shields.io/badge/EOSIO-Labs-5cb3ff.svg)](#about-eosio-labs)
 
-# Overview
+## Overview
 
 WebAuthn is a *Web Authentication API* standard recently finalized by W3C and supported, to varying degrees, by the Chrome, Firefox, and Edge web browsers and some mobile platforms. The standard enables passwordless primary and multi-factor user authentication flows using authenticators such as security keys (_e.g._, YubiKey) or built-in platform authenticators (_e.g._, biometrics).
 
@@ -21,7 +21,7 @@ This is facilitated by `eosjs`, a [WebAuthn Signature Provider](https://github.c
 
 EOSIO Labs™ repositories are experimental.  Developers in the community are encouraged to use EOSIO Labs repositories as the basis for code and concepts to incorporate into their applications. Community members are also welcome to contribute and further develop these repositories. Since these repositories are not supported by Block.one, we may not provide responses to issue reports, pull requests, updates to functionality, or other requests from the community, and we encourage the community to take responsibility for these.
 
-# Limitations
+## Limitations
 
 * Server only supports a single client (browser tab) connecting to it
 * Server only supports a single user; it assumes all stored keys belong to that user
@@ -34,12 +34,12 @@ EOSIO Labs™ repositories are experimental.  Developers in the community are en
 * If `keys.json` (maintained by the server) is lost, then the keypairs become inaccessible. It's important to note that webauthn doesn't provide a way to recover from this.
 * There is currently no way to display Ricardian contracts to users when using WebAuthn. For this reason, WebAuthn, when used in conjunction with EOSIO, should be used with caution and only on private chains and applications already trusted by the end user.
 
-# Building and running this app
+## Building and Running This App
 Running this app will create an HTTP server listening on 0.0.0.0:8000 meaning it would typically be accessible via http://localhost:8000 (and from non-localhost as well). However, webauthn requires usage from an HTTPS origin. You will need to place an HTTPS proxy in front of the server and modify server source code with the resulting domain name and port.
 
-## Running Locally with nodeos Docker Image
+### Running Locally with nodeos Docker Image
 
-### Prerequisites
+#### Prerequisites
 - Install Docker
 - Install Docker Compose (included with Docker for Desktop on Mac)
 - Install HAProxy
@@ -47,39 +47,39 @@ Running this app will create an HTTP server listening on 0.0.0.0:8000 meaning it
    - On Ubuntu: `apt-get install haproxy=1.8.\*`
 - Install nodejs
 
-### Setup
+#### Setup
 The following command will generate the required SSL certificate, perform the required yarn install/setup, and execute all necessary actions against the chain.
 
 `yarn setup`
 
-### Starting/Stopping
+#### Starting/Stopping
 To start the chain, haproxy, and the app:
 `yarn start`
 
 To stop all of the above, CTRL+C the app and then:
 `yarn stop`
 
-### Cleaning the chain
+#### Cleaning the chain
 To reset the chain:
 `yarn clean`
 
-### Running any arbitrary cleos command
+#### Running any arbitrary cleos command
 `yarn cleos <parameters to cleos>`
 
-### If the wallet locks,
+#### If the wallet locks,
 `yarn unlock-wallet`
 
-## Running locally with nodeos built from source
+### Running locally with nodeos built from source
 
-### Prerequisites
+#### Prerequisites
 - Install HAProxy
 - Install nodejs
 
-### HTTPS proxy via self-signed localhost certificate:
+#### HTTPS proxy via self-signed localhost certificate:
 
 The following describes one way of placing an HTTPS proxy in front of the server via the program `haproxy` along with a self-signed certificate that you instruct your browser to trust.
 
-### Create a certificate and private key:
+#### Create a certificate and private key:
 
 ```
 $ openssl req \
@@ -112,13 +112,13 @@ EOF
 )
 ```
 
-### Combine the .cert file and the .key into a .pem file:
+#### Combine the .cert file and the .key into a .pem file:
 
 ```
 $ cat localhostca.crt localhostca.key > localhostca.pem
 ```
 
-### Make a haproxy.cfg file which will listen on HTTPS port 7000 and forward to port 8000:
+#### Make a haproxy.cfg file which will listen on HTTPS port 7000 and forward to port 8000:
 
 ```
 defaults
@@ -134,7 +134,7 @@ backend http_backend
    server server1 127.0.0.1:8000
 ```
 
-### Run the program haproxy:
+#### Run the program haproxy:
 
 ```
 $ haproxy -f haproxy.cfg
@@ -144,11 +144,11 @@ You will need to add the `localhostca.crt` certificate file as a trusted certifi
 
 Note that it would be good practice to remove this certificate from being trusted at the conclusion of your development.
 
-### Modification of server origin in source:
+#### Modification of server origin in source:
 
 The server domain name and port must be specified in the source of this application. Modify the `socketUrl` in `src/client/ClientRoot.tsx` to be the valid HTTPS url to the HTTPS proxy. If you performed the self-signed & haproxy instructions above you would change this to `https://localhost:7000`
 
-# Building and running the server
+## Building and running the server
 
 ```
 $ git submodule update --init --recursive
@@ -159,30 +159,30 @@ $ rm -rf dist && yarn server
 
 The server is now running and you can now access it via the HTTPS proxy you just created.
 
-# Create test chain with Webauthn support
+## Create test chain with WebAuthn support
 
 This starts a minimal test chain with some upgrades activated. This guide assumes you're already familiar with creating and using test chains.
 
 **Note: If using the Docker setup, only the account creation and token transfers must be done.
 All other steps are handled in the `setup` script.**
 
-### Prerequisites:
+#### Prerequisites:
 
 * Install `EOSIO/eos` branch `webauthn`
 * Install `EOSIO/eosio.cdt` branch `v1.6.x`
 * Use `EOSIO/eosio.cdt` to build `EOSIO/eosio.contracts` branch `v1.7.0-rc1`
 
-### Create a wallet, or unlock existing:
+#### Create a wallet, or unlock existing:
 
 Use `$ cleos wallet create` or `$ cleos wallet unlock`
 
-### Add the default key:
+#### Add the default key:
 
 ```
 $ cleos wallet import --private-key 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
 ```
 
-### Create a test chain:
+#### Create a test chain:
 
 This will create a fresh chain in directory `my-chain`. `chain_api_plugin` and `producer_api_plugin` enable the commands which follow.
 
@@ -192,7 +192,7 @@ $ cd my-chain
 $ nodeos --data-dir ./data --config-dir ./config --plugin eosio::chain_api_plugin --plugin eosio::producer_api_plugin --http-validate-host 0 --access-control-allow-origin "*" -p eosio -e 2>stderr &
 ```
 
-### Preactivate feature:
+#### Preactivate feature:
 
 Do this before installing eosio.bios:
 
@@ -200,7 +200,7 @@ Do this before installing eosio.bios:
 $ curl -X POST http://127.0.0.1:8888/v1/producer/schedule_protocol_feature_activations -d '{"protocol_features_to_activate": ["0ec7e080177b2c02b278d5088611686b49d739925a92d9bfcacd7fc6b74053bd"]}' | jq
 ```
 
-### Install contracts, activate webauthn keys, and create tokens:
+#### Install contracts, activate webauthn keys, and create tokens:
 
 ```
 $ cleos create account eosio eosio.token EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
@@ -211,7 +211,7 @@ $ cleos push action eosio.token create '["eosio","10000000.0000 SYS"]' -p eosio.
 $ cleos push action eosio.token issue '["eosio","10000000.0000 SYS",""]' -p eosio
 ```
 
-### Use app to generate 2 keys. Use them below:
+#### Use app to generate 2 keys. Use them below:
 
 ```
 $ cleos create account eosio usera <a-generated-public-key>
