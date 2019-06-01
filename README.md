@@ -162,6 +162,9 @@ This starts a minimal test chain with some upgrades activated. This guide assume
 
 ### Create a wallet, or unlock existing:
 
+**Note** If using the Docker setup, only the account creation and token transfers must be done.
+All other steps are handled in the `setup` script.
+
 Use `$ cleos wallet create` or `$ cleos wallet unlock`
 
 ### Add the default key:
