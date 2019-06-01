@@ -153,6 +153,9 @@ The server is now running and you can now access it via the HTTPS proxy you just
 
 This starts a minimal test chain with some upgrades activated. This guide assumes you're already familiar with creating and using test chains.
 
+**Note: If using the Docker setup, only the account creation and token transfers must be done.
+All other steps are handled in the `setup` script.**
+
 ### Prerequisites:
 
 * Install `hidapi`; a library for communicating with USB and Bluetooth HID devices
