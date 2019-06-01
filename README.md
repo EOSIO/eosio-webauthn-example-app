@@ -158,8 +158,7 @@ All other steps are handled in the `setup` script.**
 
 ### Prerequisites:
 
-* Install `hidapi`; a library for communicating with USB and Bluetooth HID devices
-* Install `EOSIO/eos` branch `webauthn_wip`
+* Install `EOSIO/eos` branch `webauthn`
 * Install `EOSIO/eosio.cdt` branch `v1.6.x`
 * Use `EOSIO/eosio.cdt` to build `EOSIO/eosio.contracts` branch `v1.7.0-rc1`
 
