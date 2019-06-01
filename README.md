@@ -15,7 +15,7 @@ This example app demonstrates how an application running on a private chain coul
 * generate WebAuthn-compatible keys for users
 * request signatures from users with those keys
 
-This is facilitated by `eosjs`, a [WebAuthn Signature Provider](https://github.com/EOSIO/webauthn-browser-signature/blob/master/src/client/wasig.ts) for `eosjs`, and the built-in browser [Web Authentication API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API). The browser prompts the user to authenticate with their security key or built-in platform authenticator.
+This is facilitated by `eosjs`, a [WebAuthn Signature Provider](https://github.com/EOSIO/eosio-webauthn-example-app/blob/master/src/client/wasig.ts) for `eosjs`, and the built-in browser [Web Authentication API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API). The browser prompts the user to authenticate with their security key or built-in platform authenticator.
 
 ## About EOSIO Labs™
 
