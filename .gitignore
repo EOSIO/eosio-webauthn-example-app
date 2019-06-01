@@ -3,3 +3,9 @@ dist
 *.log
 *.out
 keys.json
+
+*.crt
+*.key
+*.pem
+
+webauthn-nodeos-data/

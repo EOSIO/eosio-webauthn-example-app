@@ -1,9 +1,9 @@
-import { Key } from '../common/Key';
 import { Api, JsonRpc, Serialize } from 'eosjs';
-import { WaSignatureProvider } from './wasig';
-import * as IoClient from 'socket.io-client';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import * as IoClient from 'socket.io-client';
+import { Key } from '../common/Key';
+import { WaSignatureProvider } from './wasig';
 
 require('./style.css');
 
@@ -84,8 +84,8 @@ async function delay(ms: number): Promise<void> {
 async function createKey(appState: AppState) {
     try {
         appendMessage(appState, 'Create key...');
-        let rp = { id: 'localhost', name: 'bar' };
-        let cred = await (navigator as any).credentials.create({
+        const rp = { id: 'localhost', name: 'bar' };
+        const cred = await (navigator as any).credentials.create({
             publicKey: {
                 rp,
                 user: {
@@ -189,7 +189,7 @@ class ClientRoot extends React.Component<{ appState: AppState }> {
                     functionality, or other requests from the community, and we encourage the community to take responsibility
                     for these.
                     <br /><br />
-                    <a href="https://github.com/EOSIO/webauthn-browser-signature">GitHub Repo</a>
+                    <a href='https://github.com/EOSIO/webauthn-browser-signature'>GitHub Repo</a>
                 </div>
             </div>
         );
@@ -197,7 +197,7 @@ class ClientRoot extends React.Component<{ appState: AppState }> {
 }
 
 export default function init(prev: AppState) {
-    let appState = new AppState();
+    const appState = new AppState();
     if (prev) {
         appState.restore(prev);
         prev.alive = false;

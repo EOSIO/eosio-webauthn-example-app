@@ -1,0 +1,17 @@
+version: "3.4"
+services:
+  nodeos-webauthn-producer:
+    image: eosio/nodeos-webauthn:latest
+    command: bash -c "(keosd &) && nodeos --data-dir /root/.local/share/eosio --plugin eosio::chain_api_plugin --plugin eosio::producer_api_plugin --http-validate-host 0 --access-control-allow-origin \"*\" --http-server-address=0.0.0.0:8888 -p eosio -e"
+    stop_grace_period: 3m0s
+    ports:
+      - "8888:8888"
+    volumes:
+      - nodeos-webauthn-data:/root/.local/share/eosio
+      - nodeos-webauthn-password:/app/wallet
+      - nodeos-webauthn-wallet:/root/eosio-wallet
+
+volumes:
+  nodeos-webauthn-data:
+  nodeos-webauthn-password:
+  nodeos-webauthn-wallet:
