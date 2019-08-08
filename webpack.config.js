@@ -22,6 +22,9 @@ module.exports = {
             }
         ]
     },
+    externals: [
+        { 'express': { commonjs: 'express' } },
+    ],
     resolve: {
         extensions: ['.tsx', '.ts', '.js']
     },

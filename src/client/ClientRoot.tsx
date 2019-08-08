@@ -3,7 +3,8 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as IoClient from 'socket.io-client';
 import { Key } from '../common/Key';
-import { WaSignatureProvider } from './wasig';
+
+const WebAuthnSignatureProvider = require('eosjs/dist/eosjs-webauthn-sig.js').WebAuthnSignatureProvider;
 
 require('./style.css');
 
@@ -14,7 +15,7 @@ class AppState {
     public io: SocketIOClient.Socket;
     public clientRoot: ClientRoot;
     public keys = [] as Key[];
-    public sigprov = new WaSignatureProvider();
+    public sigprov = new WebAuthnSignatureProvider();
     public rpc = new JsonRpc('http://localhost:8888');
     public api: Api;
     public message = '';
