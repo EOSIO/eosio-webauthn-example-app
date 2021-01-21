@@ -54,7 +54,7 @@
       "node-fetch": "^2.3.0",
       "react": "^16.8.6",
       "react-dom": "^16.8.6",
-      "socket.io": "^2.2.0",
+      "socket.io": "^2.4.0",
       "socket.io-client": "^2.2.0",
       "text-encoding": "^0.7.0"
    }
