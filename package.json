@@ -51,7 +51,7 @@
       "elliptic": "^6.4.1",
       "eosjs": "file:external/eosjs",
       "eosjs-ecc": "^4.0.4",
-      "node-fetch": "^2.3.0",
+      "node-fetch": "^3.1.1",
       "react": "^16.8.6",
       "react-dom": "^16.8.6",
       "socket.io": "^2.2.0",
